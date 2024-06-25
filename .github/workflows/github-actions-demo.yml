@@ -9,13 +9,22 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "Building the project..."
-      - run: exit 1  # This will fail the build job
+      - run: exit 1  # This intentionally fails the build job
 
   Test:
     runs-on: ubuntu-latest
     needs: Build
+    if: failure() != true  # Run this job only if the Build job did not fail
     steps:
-      - run: echo "🎉 The test job was triggered because the build job completed."
+      - run: echo "🎉 The test job was triggered because the build job completed successfully."
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "Running tests..."
+
+  Handle-Failure:
+    runs-on: ubuntu-latest
+    needs: Build
+    if: failure()  # Run this job only if the Build job failed
+    steps:
+      - run: echo "❌ The build job failed. Handling failure..."
+      # You can add steps here to handle the failure, send notifications, etc.
