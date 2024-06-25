@@ -16,5 +16,3 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      # Intentionally fail the workflow
-      - run: exit 1
